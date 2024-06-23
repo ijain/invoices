@@ -31,9 +31,6 @@ class Invoice extends Model
 
     protected $casts = [
         'status' => StatusEnum::class,
-        'date'   => 'date:Y-m-d',
-        'due_date'   => 'date:Y-m-d',
-        'total_amount' => 'decimal:2',
     ];
 
     protected $appends = ['total_amount'];
@@ -60,6 +57,6 @@ class Invoice extends Model
 
     public function getTotalAmountAttribute(): int
     {
-        return $this->products()->sum('price');
+        return (int)$this->products()->sum('price');
     }
 }

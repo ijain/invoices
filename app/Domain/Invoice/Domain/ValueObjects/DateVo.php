@@ -11,7 +11,7 @@ final readonly class DateVo
 {
     private Carbon $date;
 
-    private function __construct(?string $date)
+    private function __construct(string $date)
     {
         if (!$this->isValidDate($date)) {
             throw new InvalidArgumentException('Invalid date');
@@ -20,9 +20,9 @@ final readonly class DateVo
         $this->date = Carbon::parse($date);
     }
 
-    public static function create(?string $dateValue): self
+    public static function create(string $date): self
     {
-        return new self($dateValue);
+        return new self($date);
     }
 
     public function format(): string

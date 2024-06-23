@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Invoice\Domain\ValueObjects;
 
-use App\Domain\Invoice\Domain\Models\Company;
+use Illuminate\Database\Eloquent\Model;
 
 final readonly class BilledCompanyVo
 {
-    private string $id;
     private string $name;
     private string $street;
     private string $city;
@@ -16,9 +15,8 @@ final readonly class BilledCompanyVo
     private string $phone;
     private string $email;
 
-    private function __construct(Company $company)
+    private function __construct(Model $company)
     {
-        $this->id = $company->id;
         $this->name = $company->name;
         $this->street = $company->street;
         $this->city = $company->city;
@@ -27,8 +25,23 @@ final readonly class BilledCompanyVo
         $this->email = $company->email;
     }
 
-    public static function create(Company $company): self
+    public static function create(Model|string|int $value): self
     {
-        return new self($company);
+        return new self($value);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function format(): array
+    {
+        return [
+            'name' => $this->name,
+            'street' => $this->street,
+            'city' => $this->city,
+            'zip' => $this->zip,
+            'phone' => $this->phone,
+            'email' => $this->email,
+        ];
     }
 }
