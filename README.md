@@ -1,72 +1,29 @@
-# Recruitment Task 🧑‍💻👩‍💻
+```To run the endpoints:```
 
-### Invoice module with approve and reject system as a part of a bigger enterprise system. Approval module exists and you should use it. It is Backend task, no Frontend is needed.
----
-Please create your own repository and make it public or invite us to check it.
+```cd docker```
 
+```docker compose exec workspace bash```
 
-<table>
-<tr>
-<td>
+### Commands to run end-points:
+```php artisan invoice:show```
+```php artisan invoice:approve```
+```php artisan invoice:reject```
 
-- Invoice contains:
-  - Invoice number
-  - Invoice date
-  - Due date
-  - Company
-    - Name 
-    - Street Address
-    - City
-    - Zip code
-    - Phone
-  - Billed company
-    - Name 
-    - Street Address
-    - City
-    - Zip code
-    - Phone
-    - Email address
-  - Products
-    - Name
-    - Quantity
-    - Unit Price	
-    - Total
-  - Total price
-</td>
-<td>
-Image just for visualization
-<img src="https://templates.invoicehome.com/invoice-template-us-classic-white-750px.png" style="width: auto"; height:100%" />
-</td>
-</tr>
-</table>
+##### What was done in addition to this task:
 
-### TO DO:
-Simple Invoice module which is approving or rejecting single invoice using information from existing approval module which tells if the given resource is approvable / rejectable. Only 3 endpoints are required:
-```
-  - Show Invoice data, like in the list above
-  - Approve Invoice
-  - Reject Invoice
-```
-* In this task you must save only invoices so don’t write repositories for every model/ entity.
+##### 1. Bug fixed for mariadb image
+- mariadb is not booting issue
+- Error message:  SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for mariadb failed: Name or service not known (SQL: SHOW FULL TABLES WHERE table_type = 'BASE TABLE')
+- Reference URL: https://github.com/laradock/laradock/blob/master/mariadb/Dockerfile
+- CMD `["mysqld"]` changed to CMD `["mariadbd"]`
 
-* You should be able to approve or reject each invoice just once (if invoice is approved you cannot reject it and vice versa.
+##### 2. Changed PHP version
+- `readonly` classes are allowed only since PHP 8.2, changed 8.0.1 to 8.2
 
-* You can assume that product quantity is integer and only currency is USD.
+##### 3. Added Database seeders to default DatabaseSeeder.php
 
-* Proper seeder is located in Invoice module and it’s named DatabaseSeeder
+##### 4. Added status update to approval service
 
-* In .env.example proper connection to database is established.
+##### Suggestion
+- it would be good to add unique key(product_id, invoice_id) to `invoice_product_lines` table in order to avoid duplicates.
 
-* Using proper DDD structure is mandatory (with elements like entity, value object, repository, mapper / proxy, DTO).
-Unit tests in plus.
-
-* Docker is in docker catalog and you need only do 
-  ```
-  ./start.sh
-  ``` 
-  to make everything work
-
-  docker container is in docker folder. To connect with it just:
-  ```
-  docker compose exec workspace bash
-  ``` 
