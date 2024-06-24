@@ -7,7 +7,7 @@ namespace App\Modules\Invoices\Api\Dto;
 use App\Domain\Invoice\Domain\ValueObjects\ProductVo;
 use Illuminate\Database\Eloquent\Collection;
 
-final class InvoiceProductListDto
+final class InvoiceProductsDto
 {
     private Collection $products;
 

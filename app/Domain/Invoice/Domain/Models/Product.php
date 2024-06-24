@@ -30,7 +30,7 @@ class Product extends Model
      */
     public function uniqueIds(): array
     {
-        return ['uuid'];
+        return ['id'];
     }
 
     public function invoices(): BelongsToMany

@@ -33,7 +33,7 @@ class Company extends Model
      */
     public function uniqueIds(): array
     {
-        return ['uuid'];
+        return ['id'];
     }
 
     public function invoices(): HasMany

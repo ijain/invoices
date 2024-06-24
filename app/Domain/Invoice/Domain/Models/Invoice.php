@@ -40,7 +40,7 @@ class Invoice extends Model
      */
     public function uniqueIds(): array
     {
-        return ['uuid'];
+        return ['id'];
     }
 
     public function products(): BelongsToMany

@@ -17,7 +17,7 @@ final class InvoiceDto
     public DateVo $dueDate;
     public CompanyVo $company;
     public BilledCompanyVo $billedCompany;
-    public InvoiceProductListDto $products;
+    public InvoiceProductsDto $products;
     public MoneyVo $totalAmount;
 
     private function __construct(
@@ -26,7 +26,7 @@ final class InvoiceDto
         DateVo $dueDate,
         CompanyVo $company,
         BilledCompanyVo $billedCompany,
-        InvoiceProductListDto $products,
+        InvoiceProductsDto $products,
         MoneyVo $totalAmount,
     ) {
         $this->number = $number;
@@ -46,7 +46,7 @@ final class InvoiceDto
             DateVo::create($invoice->due_date),
             CompanyVo::create($invoice->company),
             BilledCompanyVo::create($invoice->company),
-            InvoiceProductListDto::fromCollection($invoice->products),
+            InvoiceProductsDto::fromCollection($invoice->products),
             MoneyVo::create($invoice->total_amount)
         );
     }
