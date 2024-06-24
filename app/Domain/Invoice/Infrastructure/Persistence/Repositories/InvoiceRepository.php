@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Invoice\Infrastructure\Persistence\Repositories;
 
-use App\Domain\Enums\StatusEnum;
 use App\Domain\Invoice\Domain\Models\Invoice;
 use App\Domain\Invoice\Domain\Repositories\InvoiceRepositoryInterface;
 use App\Modules\Approval\Api\Dto\ApprovalDto;
+use App\Modules\Approval\Application\ApprovalFacade;
 use App\Modules\Invoices\Api\Dto\InvoiceDto;
+use Illuminate\Events\Dispatcher;
+use Ramsey\Uuid\Uuid;
 
-/**
- * returns DTOs
- */
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
     public function findById(string $id): ?InvoiceDto
@@ -22,21 +21,25 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return InvoiceDto::fromModel($invoice);
     }
 
-    public function approved(Invoice $invoice): ApprovalDto
+    public function approved(Invoice $invoice): bool
     {
-        return new ApprovalDto(
-            $invoice->id,
-            StatusEnum::APPROVED,
-            Invoice::class
-        );
+        $dispatcher = new Dispatcher();
+        $approvalFacade = new ApprovalFacade($dispatcher);
+
+        $uuid = Uuid::fromString($invoice->id);
+        $approvalDto = new ApprovalDto($uuid, $invoice->status, Invoice::class);
+
+        return $approvalFacade->approve($approvalDto);
     }
 
-    public function rejected(Invoice $invoice): ApprovalDto
+    public function rejected(Invoice $invoice): bool
     {
-        return new ApprovalDto(
-            $invoice->id,
-            StatusEnum::REJECTED,
-            Invoice::class
-        );
+        $dispatcher = new Dispatcher();
+        $approvalFacade = new ApprovalFacade($dispatcher);
+
+        $uuid = Uuid::fromString($invoice->id);
+        $approvalDto = new ApprovalDto($uuid, $invoice->status, Invoice::class);
+
+        return $approvalFacade->reject($approvalDto);
     }
 }

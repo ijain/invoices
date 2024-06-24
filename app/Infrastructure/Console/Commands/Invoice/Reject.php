@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Console\Commands\Invoice;
 
+use App\Domain\Invoice\Domain\Services\InvoiceService;
+use Exception;
 use Illuminate\Console\Command;
+use Ramsey\Uuid\Uuid as UuidValidator;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class Reject extends Command
@@ -21,7 +24,7 @@ class Reject extends Command
      *
      * @var string
      */
-    protected $description = 'Set invoice status: approve, reject or exit';
+    protected $description = "Change invoice status from draft to rejected";
 
     /**
      * Execute the console command.
@@ -29,6 +32,26 @@ class Reject extends Command
      */
     public function handle(): int
     {
-        return CommandAlias::SUCCESS;
+        $inputInvoiceId = $this->ask('Give me invoice ID');
+        $isValidInput = UuidValidator::isValid($inputInvoiceId);
+
+        if (!$isValidInput) {
+            $this->info('Invalid ID');
+
+            return CommandAlias::FAILURE;
+        }
+
+        $invoiceService = new InvoiceService($inputInvoiceId);
+
+        try {
+            $invoiceService->processRejection();
+            $this->info('Status changed to Rejected');
+
+            return CommandAlias::SUCCESS;
+        } catch (Exception $e) {
+            $this->info($e->getMessage());
+
+            return CommandAlias::FAILURE;
+        }
     }
 }

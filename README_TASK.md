@@ -11,6 +11,8 @@
 
 ##### 3. Added Database seeders to default DatabaseSeeder.php
 
+##### 4. Added status update to approval service
+
 ##### Suggestion
 - it would be good to add unique key(product_id, invoice_id) to `invoice_product_lines` table in order to avoid duplicates.
 
