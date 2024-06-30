@@ -22,6 +22,7 @@ class Invoice extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'number',
         'date',
         'due_date',

@@ -1,4 +1,4 @@
-```To run the endpoints:```
+### To enter environment for running endpoints and tests:
 
 ```cd docker```
 
@@ -6,8 +6,17 @@
 
 ### Commands to run end-points:
 ```php artisan invoice:show```
+
 ```php artisan invoice:approve```
+
 ```php artisan invoice:reject```
+
+### Command to run PhpUnit tests:
+```phpunit```
+
+
+==========================================================
+
 
 ##### What was done in addition to this task:
 
