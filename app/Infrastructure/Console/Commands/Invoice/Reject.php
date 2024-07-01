@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Console\Commands\Invoice;
 
 use App\Domain\Invoice\Domain\Services\InvoiceService;
+use App\Domain\Invoice\Infrastructure\Persistence\Repositories\InvoiceRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Ramsey\Uuid\Uuid as UuidValidator;
@@ -41,7 +42,7 @@ class Reject extends Command
             return CommandAlias::FAILURE;
         }
 
-        $invoiceService = new InvoiceService($inputInvoiceId);
+        $invoiceService = new InvoiceService($inputInvoiceId, new InvoiceRepository());
 
         try {
             $invoiceService->processRejection();

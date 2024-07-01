@@ -21,24 +21,24 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return InvoiceDto::fromModel($invoice);
     }
 
-    public function approved(Invoice $invoice): bool
+    public function approved(InvoiceDto $invoiceDto): bool
     {
         $dispatcher = new Dispatcher();
         $approvalFacade = new ApprovalFacade($dispatcher);
 
-        $uuid = Uuid::fromString($invoice->id);
-        $approvalDto = new ApprovalDto($uuid, $invoice->status, Invoice::class);
+        $uuid = Uuid::fromString($invoiceDto->id);
+        $approvalDto = new ApprovalDto($uuid, $invoiceDto->status, Invoice::class);
 
         return $approvalFacade->approve($approvalDto);
     }
 
-    public function rejected(Invoice $invoice): bool
+    public function rejected(InvoiceDto $invoiceDto): bool
     {
         $dispatcher = new Dispatcher();
         $approvalFacade = new ApprovalFacade($dispatcher);
 
-        $uuid = Uuid::fromString($invoice->id);
-        $approvalDto = new ApprovalDto($uuid, $invoice->status, Invoice::class);
+        $uuid = Uuid::fromString($invoiceDto->id);
+        $approvalDto = new ApprovalDto($uuid, $invoiceDto->status, Invoice::class);
 
         return $approvalFacade->reject($approvalDto);
     }

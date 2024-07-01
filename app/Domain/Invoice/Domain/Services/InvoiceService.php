@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Invoice\Domain\Services;
 
-use App\Domain\Invoice\Domain\Models\Invoice;
 use App\Domain\Invoice\Domain\Repositories\InvoiceRepositoryInterface;
-use App\Domain\Invoice\Infrastructure\Persistence\Repositories\InvoiceRepository;
 use App\Modules\Invoices\Api\Dto\InvoiceDto;
 
 class InvoiceService
@@ -14,10 +12,10 @@ class InvoiceService
     private string $id;
     private InvoiceRepositoryInterface $invoiceRepository;
 
-    public function __construct(string $id)
+    public function __construct(string $id, InvoiceRepositoryInterface $invoiceRepository)
     {
         $this->id = $id;
-        $this->invoiceRepository = new InvoiceRepository();
+        $this->invoiceRepository = $invoiceRepository;
     }
 
     public function getInvoice(): ?InvoiceDto
@@ -27,15 +25,15 @@ class InvoiceService
 
     public function processApproval(): bool
     {
-        $invoice = Invoice::find($this->id);
+        $invoiceDto = $this->getInvoice();
 
-        return $invoice && $this->invoiceRepository->approved($invoice);
+        return $invoiceDto && $this->invoiceRepository->approved($invoiceDto);
     }
 
     public function processRejection(): bool
     {
-        $invoice = Invoice::find($this->id);
+        $invoiceDto = $this->getInvoice();
 
-        return $invoice && $this->invoiceRepository->rejected($invoice);
+        return $invoiceDto && $this->invoiceRepository->rejected($invoiceDto);
     }
 }
