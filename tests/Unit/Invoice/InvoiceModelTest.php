@@ -19,8 +19,7 @@ class InvoiceModelTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
-    public function it_calculates_total_amount_correctly(): void
+    public function testInvoiceModelCalculatesTotalAmountCorrectly(): void
     {
         // Create a partial mock of the Invoice model
         $invoiceMock = Mockery::mock(Invoice::class)->makePartial();
@@ -44,8 +43,7 @@ class InvoiceModelTest extends TestCase
         $this->assertEquals(300, $totalAmount);
     }
 
-    /** @test */
-    public function it_returns_related_company(): void
+    public function testInvoiceModelReturnsRelatedCompany(): void
     {
         // Create a partial mock of the Invoice model
         $invoiceMock = Mockery::mock(Invoice::class)->makePartial();
